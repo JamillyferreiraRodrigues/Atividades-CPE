@@ -1,0 +1,199 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Definindo a struct Ramal para armazenar informações sobre um ramal
+struct Ramal {
+    int numeroRamal;          
+    int categoria;            
+    string setor;             
+    int edificio;            
+    string sala;              
+    string responsavelRamal;  
+    string responsavelAteste; 
+
+    // Construtor da struct Ramal para inicializar os campos
+    Ramal(int numero, int cat, const string& set, int edi, const string& sal, const string& respRamal, const string& respAteste)
+        : numeroRamal(numero), categoria(cat), setor(set), edificio(edi), sala(sal), responsavelRamal(respRamal), responsavelAteste(respAteste) {}
+};
+
+// Declaração da função de pesquisa de ramais
+void pesquisarRamal(Ramal ramais[], int tamanho);
+
+int main() {
+    // Inicializando um array de ramais com 4 elementos
+    const int tamanho = 4;
+    Ramal ramais[tamanho] = {
+        Ramal(1320, 1, "SETEL", 500, "Sala 101", "Joao", "Maria"),
+        Ramal(2050, 2, "DIBEN", 500, "Sala 102", "Pedro", "Felipe"),
+        Ramal(1500, 3, "PATRIMÔNIO", 505, "Sala 201", "Julia", "Paulo"),
+        Ramal(1240, 4, "PROTOCOLO", 505, "Sala 202", "Ana", "Kaio")
+    };
+
+    // Chamando a função de pesquisa de ramais
+    pesquisarRamal(ramais, tamanho);
+
+    return 0;
+}
+
+// Definição da função de pesquisa de ramais
+void pesquisarRamal(Ramal ramais[], int tamanho) {
+    int opcao;
+
+    // Menu para a pesquisa 
+    cout << "---SELECIONE A FORMA DE PESQUISA QUE DESEJA UTILIZAR---" << endl;
+    cout << "PRESSIONE 0 para: numero do ramal." << endl;
+    cout << "PRESSIONE 1 para: setor." << endl;
+    cout << "PRESSIONE 2 para: edificio." << endl;
+    cout << "PRESSIONE 3 para: responsável pelo ramal." << endl;
+    cout << "PRESSIONE 4 para: responsável pelo ateste." << endl;
+    cout << "Digite: ";
+    cin >> opcao;
+
+    switch (opcao) {
+        case 0: {
+            int ramalPesquisa;
+            cout << "Lista de Ramais: " << endl;
+            for (int i = 0; i < tamanho; ++i) {
+                cout << "Ramal " << ramais[i].numeroRamal << endl;
+            }
+            cout << "Digite o numero do ramal a ser pesquisado: ";
+            cin >> ramalPesquisa;
+
+            bool encontrado = false;
+            for (int i = 0; i < tamanho; ++i) {
+                if (ramais[i].numeroRamal == ramalPesquisa) {
+                    cout << "Ramal encontrado: " << endl;
+                    cout << "Numero do ramal: " << ramais[i].numeroRamal << endl;
+                    cout << "Categoria: " << ramais[i].categoria << endl;
+                    cout << "Setor: " << ramais[i].setor << endl;
+                    cout << "Edificio: " << ramais[i].edificio << endl;
+                    cout << "Sala: " << ramais[i].sala << endl;
+                    cout << "Responsavel pelo ramal: " << ramais[i].responsavelRamal << endl;
+                    cout << "Responsavel pelo ateste: " << ramais[i].responsavelAteste << endl;
+                    encontrado = true;
+                    break;
+                }
+            }
+            if (!encontrado) {
+                cout << "Ramal nao encontrado." << endl;
+            }
+            break;
+        }
+        case 1: {
+            string setorPesquisa;
+            cout << "Lista de Setores: " << endl;
+            for (int i = 0; i < tamanho; ++i) {
+                cout << " - " << ramais[i].setor << endl;
+            }
+            cout << "Digite o nome do setor a ser pesquisado: ";
+            cin >> setorPesquisa;
+
+            bool encontrado = false;
+            for (int i = 0; i < tamanho; ++i) {
+                if (ramais[i].setor == setorPesquisa) {
+                    cout << "Ramal encontrado: " << endl;
+                    cout << "Numero do ramal: " << ramais[i].numeroRamal << endl;
+                    cout << "Categoria: " << ramais[i].categoria << endl;
+                    cout << "Setor: " << ramais[i].setor << endl;
+                    cout << "Edificio: " << ramais[i].edificio << endl;
+                    cout << "Sala: " << ramais[i].sala << endl;
+                    cout << "Responsavel pelo ramal: " << ramais[i].responsavelRamal << endl;
+                    cout << "Responsavel pelo ateste: " << ramais[i].responsavelAteste << endl;
+                    encontrado = true;
+                }
+            }
+            if (!encontrado) {
+                cout << "Nenhum ramal encontrado para o setor informado." << endl;
+            }
+            break;
+        }
+        case 2: {
+            int ediPesquisa;
+            cout << "Lista de Edificios: " << endl;
+            for (int i = 0; i < tamanho; ++i) {
+                cout << " - Edificio " << ramais[i].edificio << endl;
+            }
+            cout << "Digite o numero do edificio a ser pesquisado: ";
+            cin >> ediPesquisa;
+
+            bool encontrado = false;
+            for (int i = 0; i < tamanho; ++i) {
+                if (ramais[i].edificio == ediPesquisa) {
+                    cout << "Ramal encontrado: " << endl;
+                    cout << "Numero do ramal: " << ramais[i].numeroRamal << endl;
+                    cout << "Categoria: " << ramais[i].categoria << endl;
+                    cout << "Setor: " << ramais[i].setor << endl;
+                    cout << "Edificio: " << ramais[i].edificio << endl;
+                    cout << "Sala: " << ramais[i].sala << endl;
+                    cout << "Responsavel pelo ramal: " << ramais[i].responsavelRamal << endl;
+                    cout << "Responsavel pelo ateste: " << ramais[i].responsavelAteste << endl;
+                    encontrado = true;
+                }
+            }
+            if (!encontrado) {
+                cout << "Nenhum ramal encontrado para o edificio informado." << endl;
+            }
+            break;
+        }
+        case 3: {
+            string resramal;
+            cout << "Lista de Responsaveis pelos Ramais: " << endl;
+            for (int i = 0; i < tamanho; ++i) {
+                cout << ramais[i].responsavelRamal << endl;
+            }
+            cout << "Digite o nome do responsavel pelo ramal a ser pesquisado: ";
+            cin >> resramal;
+
+            bool encontrado = false;
+            for (int i = 0; i < tamanho; ++i) {
+                if (ramais[i].responsavelRamal == resramal) {
+                    cout << "Ramal encontrado: " << endl;
+                    cout << "Numero do ramal: " << ramais[i].numeroRamal << endl;
+                    cout << "Categoria: " << ramais[i].categoria << endl;
+                    cout << "Setor: " << ramais[i].setor << endl;
+                    cout << "Edificio: " << ramais[i].edificio << endl;
+                    cout << "Sala: " << ramais[i].sala << endl;
+                    cout << "Responsavel pelo ramal: " << ramais[i].responsavelRamal << endl;
+                    cout << "Responsavel pelo ateste: " << ramais[i].responsavelAteste << endl;
+                    encontrado = true;
+                }
+            }
+            if (!encontrado) {
+                cout << "Nenhum ramal encontrado para o responsavel pelo ramal informado." << endl;
+            }
+            break;
+        }
+        case 4: {
+            string resateste;
+            cout << "Lista de Responsaveis pelos Atestes: " << endl;
+            for (int i = 0; i < tamanho; ++i) {
+                cout << ramais[i].responsavelAteste << endl;
+            }
+            cout << "Digite o nome do responsavel pelo ateste a ser pesquisado: ";
+            cin >> resateste;
+
+            bool encontrado = false;
+            for (int i = 0; i < tamanho; ++i) {
+                if (ramais[i].responsavelAteste == resateste) {
+                    cout << "Ramal encontrado: " << endl;
+                    cout << "Numero do ramal: " << ramais[i].numeroRamal << endl;
+                    cout << "Categoria: " << ramais[i].categoria << endl;
+                    cout << "Setor: " << ramais[i].setor << endl;
+                    cout << "Edificio: " << ramais[i].edificio << endl;
+                    cout << "Sala: " << ramais[i].sala << endl;
+                    cout << "Responsavel pelo ramal: " << ramais[i].responsavelRamal << endl;
+                    cout << "Responsavel pelo ateste: " << ramais[i].responsavelAteste << endl;
+                    encontrado = true;
+                }
+            }
+            if (!encontrado) {
+                cout << "Nenhum ramal encontrado para o responsavel pelo ateste informado." << endl;
+            }
+            break;
+        }
+        default:
+            cout << "Opcao invalida." << endl;
+            break;
+    }
+}
