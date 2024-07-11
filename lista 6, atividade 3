@@ -1,0 +1,143 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+void gravarDados() {
+    // Abrir o arquivo para escrita das alturas
+    ofstream arquivoAltura("altura.txt");
+    if (!arquivoAltura.is_open()) {
+        cerr << "Nao foi possivel abrir o arquivo." << endl;
+        exit(1);
+    }
+
+    // Abrir o arquivo para escrita dos pesos
+    ofstream arquivoPeso("peso.txt");
+    if (!arquivoPeso.is_open()) {
+        cerr << "Nao foi possivel abrir o arquivo." << endl;
+        exit(1);
+    }
+
+    int numPessoas;
+    cout << "Quantas pessoas voce deseja cadastrar? ";
+    cin >> numPessoas;
+
+    // Ignorar a nova linha pendente no buffer de entrada
+    cin.ignore();
+
+    // Loop para inserir a altura e peso de cada pessoa
+    for (int i = 0; i < numPessoas; ++i) {
+        double altura, peso;
+        string codigo;
+
+        cout << "Digite o codigo da pessoa " << (i + 1) << ": ";
+        getline(cin, codigo);
+        
+        cout << "Digite a altura da pessoa " << (i + 1) << " em metros: ";
+        cin >> altura;
+        cin.ignore(); // Ignorar a nova linha pendente após a leitura da altura
+
+        cout << "Digite o peso da pessoa " << (i + 1) << " em quilogramas: ";
+        cin >> peso;
+        cin.ignore(); // Ignorar a nova linha pendente após a leitura do peso
+
+        // Escrever o código e a altura no arquivo
+        arquivoAltura << codigo << endl;
+        arquivoAltura << altura << endl;
+
+        // Escrever o código e o peso no arquivo
+        arquivoPeso << codigo << endl;
+        arquivoPeso << peso << endl;
+    }
+
+    // Fechar os arquivos
+    arquivoAltura.close();
+    arquivoPeso.close();
+
+    cout << "Dados gravados." << endl;
+}
+
+void lerDados() {
+    // Abrir os arquivos para leitura
+    ifstream arquivoAltura("altura.txt");
+    ifstream arquivoPeso("peso.txt");
+
+    if (!arquivoAltura.is_open()) {
+        cerr << "Nao foi possivel abrir o arquivo." << endl;
+        exit(1);
+    }
+
+    if (!arquivoPeso.is_open()) {
+        cerr << "Nao foi possivel abrir o arquivo." << endl;
+        exit(1);
+    }
+
+    string codigoAltura, codigoPeso;
+    double altura, peso;
+    string codigoMaiorAltura, codigoMaiorPeso;
+    double maiorAltura = -1.0;  // Valor inicial para maior altura
+    double maiorPeso = -1.0;    // Valor inicial para maior peso
+
+    // Ler e processar as alturas
+    while (getline(arquivoAltura, codigoAltura)) {
+        if (!(arquivoAltura >> altura)) {
+            cerr << "Erro ao ler a altura para o codigo " << codigoAltura << endl;
+            exit(1);
+        }
+        arquivoAltura.ignore();  // Ignora a nova linha após a leitura da altura
+
+        // Atualizar maior altura
+        if (altura > maiorAltura) {
+            maiorAltura = altura;
+            codigoMaiorAltura = codigoAltura;
+        }
+    }
+
+    // Fechar o arquivo de alturas e reabrir para ler os pesos
+    arquivoAltura.close();
+    arquivoPeso.clear();
+    arquivoPeso.seekg(0);  // Voltar ao início do arquivo de pesos
+
+    // Ler e processar os pesos
+    while (getline(arquivoPeso, codigoPeso)) {
+        if (!(arquivoPeso >> peso)) {
+            cerr << "Erro ao ler o peso para o codigo " << codigoPeso << endl;
+            exit(1);
+        }
+        arquivoPeso.ignore();  // Ignora a nova linha após a leitura do peso
+
+      
+        if (peso > maiorPeso) {
+            maiorPeso = peso;
+            codigoMaiorPeso = codigoPeso;
+        }
+    }
+
+ 
+    arquivoPeso.close();
+
+    // Exibir os resultados
+    if (maiorAltura != -1.0) {
+        cout << "Pessoa com a maior altura: Codigo " << codigoMaiorAltura
+             << " com altura de " << maiorAltura << " metros." << endl;
+    } else {
+        cout << "Nenhuma altura encontrada." << endl;
+    }
+
+    if (maiorPeso != -1.0) {
+        cout << "Pessoa com o maior peso: Codigo " << codigoMaiorPeso
+             << " com peso de " << maiorPeso << " quilogramas." << endl;
+    } else {
+        cout << "Nenhum peso encontrado." << endl;
+    }
+}
+
+int main() {
+    
+    gravarDados();
+
+
+    lerDados();
+
+    return 0;
+}
