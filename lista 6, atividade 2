@@ -1,0 +1,61 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+int main() {
+    ofstream text;
+    string letras;
+    char car;
+    string ler;
+
+    // Abre o arquivo texto.txt para escrita
+    text.open("texto.txt");
+    if (text.is_open()) {
+        cout << "Digite o texto (digite 'z' em uma linha para parar):" << endl;
+
+        // Lê múltiplas linhas de texto até que o usuário digite 'z'
+        while (getline(cin, letras)) {
+            if (letras == "z") {
+                break; 
+            }
+            text << letras << endl;  // Escreve o texto no arquivo
+        }
+        text.close();
+    } else {
+        cerr << "Nao foi possivel abrir o arquivo texto.txt para escrita" << endl;
+        return 1;
+    }
+
+   
+    cout << "Digite o caractere que deseja saber: ";
+    cin >> car;
+
+    // Limpa 
+    cin.ignore();
+
+    // Abre o arquivo 
+    ifstream leia("texto.txt");
+    if (!leia.is_open()) {
+        cerr << "Nao foi possivel abrir o arquivo texto.txt para leitura" << endl;
+        return 1;
+    }
+
+    // Lê o arquivo 
+    while (getline(leia, ler)) {
+        int contador = 0;
+
+        // Conta a letra
+        for (size_t i = 0; i < ler.size(); ++i) {
+            if (ler[i] == car) {
+                ++contador;
+            }
+        }
+
+        cout << "Linha: "<< contador << " ocorrencias do caractere '" << car << "'" << endl;
+    }
+
+    leia.close();
+
+    return 0;
+}
