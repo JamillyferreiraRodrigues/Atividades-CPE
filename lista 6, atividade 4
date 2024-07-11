@@ -1,0 +1,101 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    int op;
+    string n, m, ns;
+    
+    do {
+        cout << endl;
+        cout << "Menu:" << endl;
+        cout << "1. Cadastrar aluno" << endl;
+        cout << "2. Adicionar nota" << endl;
+        cout << "3. Calcular media" << endl;
+        cout << "4. Fechar programa" << endl;
+        cout << "Escolha uma opcao: ";
+        cin >> opt;
+        cin.ignore(); // Ignorar 
+        switch (op) {
+            case 1: {
+                // Cadastrar aluno
+                cout << "Nome do aluno: ";
+                getline(cin, n);
+                cout << "Matricula do aluno: ";
+                getline(cin, m);
+
+                ofstream arq(n.c_str());
+                if (!arq) {
+                    cerr << "Erro ao criar arquivo." << endl;
+                } else {
+                    arq << m << endl;
+                    cout << "Aluno cadastrado." << endl;
+                }
+                break;
+            }
+
+            case 2: {
+                // Adicionar nota
+                cout << "Nome do aluno: ";
+                getline(cin, n);
+
+                ifstream arq(n.c_str());
+                if (!arq) {
+                    cout << "Aluno nao cadastrado." << endl;
+                    break;
+                }
+
+                cout << "Nota do aluno: ";
+                getline(cin, ns);
+
+                ofstream arqAdd(n.c_str(), ios_base::app);
+                if (!arqAdd) {
+                    cerr << "Erro ao abrir arquivo para adicionar nota." << endl;
+                } else {
+                    arqAdd << ns << endl;
+                    cout << "Nota adicionada." << endl;
+                }
+                break;
+            }
+
+            case 3: {
+                // Calcular média
+                cout << "Nome do aluno: ";
+                getline(cin, n);
+
+                ifstream arq(n.c_str());
+                if (!arq) {
+                    cout << "Aluno nao cadastrado." << endl;
+                    break;
+                }
+
+                getline(arq, m); // Ler a matrícula (não usada)
+                double nota, soma = 0.0;
+                int cnt = 0;
+                while (arq >> nota) {
+                    soma += nota;
+                    cnt++;
+                }
+
+                if (cnt > 0) {
+                    cout << "Media: " << soma / cnt << endl;
+                } else {
+                    cout << "Nenhuma nota registrada." << endl;
+                }
+                break;
+            }
+
+            case 4:
+                cout << "Fechando programa..." << endl;
+                break;
+
+            default:
+                cout << "Opcao invalida." << endl;
+        }
+    } while (opt != 4);
+
+    return 0;
+}
