@@ -1,0 +1,80 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+using namespace std;
+
+const int MAX_SIZE = 100; // Tamanho máximo do vetor
+
+int main() {
+    // Abrir o arquivo para escrita dos vetores
+    ofstream arquivo;
+	arquivo.open("Vetores.txt");
+    
+    if (!arquivo.is_open()) {
+        cerr << "Não foi possível abrir o arquivo Vetores.txt para escrita." << endl;
+        return 1;
+    }
+    
+    // Abrir o arquivo para escrita das somas
+    ofstream somas;
+	somas.open("soma.txt");
+	
+    if (!somas.is_open()) {
+        cerr << "Não foi possível abrir o arquivo soma.txt para escrita." << endl;
+        return 1;
+    }
+    
+    int numVetores;
+    cout << "Quantos vetores voce deseja inserir? ";
+    cin >> numVetores;
+    
+    // Ignorar 
+    cin.ignore();
+    
+    // Loop para inserir cada vetor
+    for (int i = 0; i < numVetores; ++i) {
+        int vetor[MAX_SIZE];
+        int tamanho = 0;
+        string linha;
+        
+        cout << "Insira os valores para o vetor " << (i + 1) << " separados por espaco (pressione Enter para terminar): ";
+        getline(cin, linha);
+        
+        stringstream ss(linha);
+        int valor;
+        int soma = 0;
+        
+        // Ler os valores da linha
+        while (ss >> valor) {
+            if (tamanho < MAX_SIZE) {
+                vetor[tamanho++] = valor;
+                soma += valor; // Somar o valor ao total
+            } else {
+                cerr << "O vetor excedeu o tamanho máximo permitido." << endl;
+                break;
+            }
+            
+        
+            if (ss.peek() == ' ')
+                ss.ignore();
+        }
+        
+        // Escrever o vetor 
+        for (int j = 0; j < tamanho; ++j) {
+            arquivo << vetor[j] << " ";
+        }
+        arquivo << endl; 
+        
+       
+        somas << soma << endl;
+    }
+    
+    // Fechar os arquivos
+    arquivo.close();
+    somas.close();
+    
+    cout << "Dados gravados nos arquivos" << endl;
+
+    return 0;
+}
